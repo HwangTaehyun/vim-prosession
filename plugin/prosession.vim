@@ -223,6 +223,13 @@ if !argc() && index(get(v:, 'argv', []), '-q') == -1 && g:prosession_on_startup
     autocmd VimEnter * nested call s:AutoStart()
     autocmd VimLeave * call s:save_last_session()
   augroup END
+elseif argc() == 1 && g:prosession_on_startup
+  augroup Prosession
+    au!
+
+    autocmd StdInReadPost * nested let s:read_from_stdin=1
+    autocmd VimLeave * call s:save_last_session()
+  augroup END
 endif
 
 function! s:AutoStart()
